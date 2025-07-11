@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Conectar Banco com Pluggy</title>
+  <script src="https://cdn.pluggy.ai/pluggy-link/v2/pluggy-link.js"></script>
+</head>
+<body>
+  <h1>Teste de Conexão com Pluggy</h1>
+  <button id="btnConectarBanco">Conectar banco com Pluggy</button>
+
+  <script>
+    document.getElementById('btnConectarBanco').addEventListener('click', async () => {
+      try {
+        const resposta = await fetch('http://localhost:3000/connect-token');
+        const { connectToken } = await resposta.json();
+
+        const pluggyLink = new Pluggy.Link({
+          connectToken,
+          onSuccess: (item) => {
+            alert('Banco conectado com sucesso!');
+            console.log('Item conectado:', item);
+          },
+          onError: (erro) => {
+            console.error('Erro na conexão com o banco:', erro);
+          }
+        });
+
+        pluggyLink.open();
+      } catch (erro) {
+        console.error('Erro ao buscar token de conexão:', erro);
+      }
+    });
+  </script>
+</body>
+</html>
